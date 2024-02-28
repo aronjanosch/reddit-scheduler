@@ -5,3 +5,7 @@ pytest
 motor
 python-dotenv
 httpx
+firebase-admin
+pytest-asyncio
+pytest-mock
+pydantic_settings

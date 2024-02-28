@@ -1,27 +1,24 @@
-from motor.motor_asyncio import AsyncIOMotorClient
+from motor import motor_asyncio, core
 from pymongo.server_api import ServerApi
 from fastapi import FastAPI
 import os
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
+from app.core.config import settings
 
 class DataBase:
-    client: AsyncIOMotorClient = None
+    client: motor_asyncio.AsyncIOMotorClient | None
     reddit_scheduler_db = None
 
 db = DataBase()
 
-def get_database():
+def get_database() -> core.AgnosticDatabase:
     return db.reddit_scheduler_db
 
 def connect_to_mongo():
     # Choose the database based on an environment variable
-    db_url = os.getenv("MONGODB_URL")
-    db.client = AsyncIOMotorClient(db_url)
+    db_url = settings.MONGO_DATABASE_URI
+    db.client = motor_asyncio.AsyncIOMotorClient(db_url)
     # You might want to dynamically set the database name as well
-    db_name = os.getenv("MONGODB_TEST_DB_NAME", "reddit_scheduler")
+    db_name = settings.MONGO_DATABASE_TEST
     db.reddit_scheduler_db = db.client[db_name]
 
 def ping() :
