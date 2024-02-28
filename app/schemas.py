@@ -6,6 +6,7 @@ class RedditPostBase(BaseModel):
     link: str
     comment: str
     schedule_time: datetime
+    subreddit: str
 
 class RedditPostCreate(RedditPostBase):
     pass

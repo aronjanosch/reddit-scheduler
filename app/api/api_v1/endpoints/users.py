@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Body, status, Depends
 from app.dependencies import get_current_user, get_current_active_superuser
 from app.schemas import UserCreate, UserUpdate, UserDB
-from app.models.user import User
 from app.crud import create_user, update_user, delete_user
 
 router = APIRouter()
@@ -20,7 +19,7 @@ async def create_user_data(user_data: UserCreate = Body(...), firebase_user: dic
     created_user = await create_user(user_data_with_email)
     return created_user
 
-@router.patch("/", response_model=User)
+@router.patch("/", response_model=UserDB)
 async def update_user_data(user_update: UserUpdate = Body(...), firebase_user: dict = Depends(get_current_user)):
     updated_user = await update_user(user_update, firebase_user['uid'])
     return updated_user
