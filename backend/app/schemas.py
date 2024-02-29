@@ -4,7 +4,7 @@ from typing import Optional
 
 class RedditPostBase(BaseModel):
     link: str
-    comment: str
+    comment: Optional[str] = None
     schedule_time: datetime
     subreddit: str
 
